@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5b60b923-1d4b-4cea-bbe9-a56c699d23ab">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="52"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#CD853F">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFDFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#CD853F">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#FFDFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<subDataset name="ReporteVentas" uuid="98e61af6-f5bf-42f7-b8c9-755f2598e598">
+		<parameter name="fechainicioventas" class="java.util.Date"/>
+		<parameter name="fechafinventas" class="java.util.Date"/>
+		<queryString>
+			<![CDATA[select * from 
+(
+(
+select idventa, descuento, montototal,nombreusuario,nombrecliente,fecha  from
+(venta natural join cliente) inner join  usuario on usuario.identificacionusuario = venta.identificacionusuario
+order by idventa
+) as ventas
+natural join 
+(
+select nombreusuario,count(nombreusuario) as numeroventas from 
+(venta natural join cliente) inner join  usuario on usuario.identificacionusuario = venta.identificacionusuario
+group by nombreusuario
+) as numeroventas
+) as a
+natural join 
+(
+select nombrecliente,count(nombrecliente) as numerocompras from 
+(venta natural join cliente) inner join  usuario on usuario.identificacionusuario = venta.identificacionusuario
+group by nombrecliente
+) as numerocompras
+where fecha >= $P{fechainicioventas} and fecha <= $P{fechafinventas}
+order by idventa]]>
+		</queryString>
+		<field name="nombrecliente" class="java.lang.String"/>
+		<field name="nombreusuario" class="java.lang.String"/>
+		<field name="idventa" class="java.lang.Integer"/>
+		<field name="descuento" class="java.lang.Integer"/>
+		<field name="montototal" class="java.lang.Integer"/>
+		<field name="fecha" class="java.sql.Date"/>
+		<field name="numeroventas" class="java.lang.Long"/>
+		<field name="numerocompras" class="java.lang.Long"/>
+		<variable name="sumadescuentos" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{descuento}]]></variableExpression>
+		</variable>
+		<variable name="sumamontos" class="java.lang.Integer" calculation="Sum">
+			<variableExpression><![CDATA[$F{montototal}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="fechainicioventas" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechafinventas" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="imagen" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from 
+(
+(
+select idventa, descuento, montototal,nombreusuario,nombrecliente,fecha  from
+(venta natural join cliente) inner join  usuario on usuario.identificacionusuario = venta.identificacionusuario
+order by idventa
+) as ventas
+natural join 
+(
+select nombreusuario,count(nombreusuario) as numeroventas from 
+(venta natural join cliente) inner join  usuario on usuario.identificacionusuario = venta.identificacionusuario
+group by nombreusuario
+) as numeroventas
+) as a
+natural join 
+(
+select nombrecliente,count(nombrecliente) as numerocompras from 
+(venta natural join cliente) inner join  usuario on usuario.identificacionusuario = venta.identificacionusuario
+group by nombrecliente
+) as numerocompras
+where fecha >= $P{fechainicioventas} and fecha <= $P{fechafinventas}
+order by idventa]]>
+	</queryString>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="nombreusuario" class="java.lang.String"/>
+	<field name="idventa" class="java.lang.Integer"/>
+	<field name="descuento" class="java.lang.Integer"/>
+	<field name="montototal" class="java.lang.Integer"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<field name="numeroventas" class="java.lang.Long"/>
+	<field name="numerocompras" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="270" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="38" y="23" width="213" height="20" uuid="4d870299-6480-4cef-85c6-8d103c6af2b8"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement positionType="Float" x="0" y="43" width="555" height="115" uuid="d85730f2-2fe3-494f-82c6-6fce115bad0f"/>
+				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="158" width="555" height="49" forecolor="#000000" uuid="ab4cddbd-b142-48e6-a379-d66d216edb32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte De Ventas]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="11" y="220" width="525" height="50" uuid="e1bbe6ae-05a5-49c6-a7d7-889d386368c8"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ReporteVentas" uuid="1cc5a4e3-da62-4195-a3e8-1c52e62ccd6c">
+						<datasetParameter name="fechainicioventas">
+							<datasetParameterExpression><![CDATA[$P{fechainicioventas}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fechafinventas">
+							<datasetParameterExpression><![CDATA[$P{fechafinventas}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="78" uuid="bd6df50e-c21a-47ec-9022-501c68f271a3">
+						<jr:tableFooter style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="78" height="30" uuid="eac88e02-7f88-49b8-853f-e874bb023a95"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TOTAL]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="78" height="30" uuid="545e7b72-a72c-4610-9466-7b3293015e7d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ID VENTA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="78" height="20" uuid="f9122d67-2238-4c80-befd-3e3963377cbe"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{idventa}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="96" uuid="d488734d-b4a7-4bad-9a3c-d02bfae72866">
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="96" height="30" uuid="04d3d274-ed9e-45aa-adcd-7adca684b5c7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{sumadescuentos}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="96" height="30" uuid="92429f55-5840-449f-9426-ce9761bb420e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[DESCUENTO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="96" height="20" uuid="940a8d78-52ea-4673-bcfb-d99c65aea8cd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{descuento}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="108" uuid="681739f6-b4e6-4bb6-8420-04f1fe4758e9">
+						<jr:tableFooter height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="108" height="30" uuid="4399ecfe-8f63-4e65-b7a7-cc468e3dc931"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{sumamontos}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="108" height="30" uuid="b654fcbb-6c60-40c1-ad48-2d998cb7add5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[MONTO TOTAL]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField pattern="">
+								<reportElement x="0" y="0" width="108" height="20" uuid="c266a161-900f-4378-9d4e-ffb3ba85e5b1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{montototal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="afbc6c1c-baca-427c-aa80-a9334d6aa030">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="0beb9dc1-aaaa-45b3-a0a6-f7915a715808"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[VENDEDOR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="8723c24c-507d-4947-91ac-aded87c04192"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombreusuario}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="43af2acd-66c5-4455-9ebc-7fb346cfd8bf">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="4863e918-1f5d-4874-9339-b3f0bd2b5eee"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CLIENTE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="da84d503-dd5a-4fd2-bee1-34dda63cc79e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{nombrecliente}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="76" uuid="58922454-88da-41cf-a4d5-c762f29a3168">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="74" height="30" uuid="616e1718-d8f1-4c78-bb70-b0e713ac7806"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FECHA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement x="0" y="0" width="74" height="20" uuid="084632b1-0455-4d85-85c6-3453e1bb6f02"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="8995aa80-457e-49a6-ad88-6e853ef1496d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="802" splitType="Stretch">
+			<barChart>
+				<chart>
+					<reportElement x="21" y="37" width="515" height="341" uuid="3d0ea665-7057-4ca6-8cec-4f52c099bd3f"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nombreusuario}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombreusuario}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{numeroventas}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="37" uuid="1a429c1e-d6ab-4b25-91de-d7266b9d5db9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grafico de ventas por vendedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="425" width="555" height="37" uuid="eb57d32c-b52d-4aa2-ab09-fc1c4528f658"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grafico de compras por cliente]]></text>
+			</staticText>
+			<barChart>
+				<chart>
+					<reportElement x="21" y="461" width="515" height="341" uuid="bd30125d-5007-4770-8a47-b050a62120e0"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nombrecliente}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombrecliente}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{numerocompras}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

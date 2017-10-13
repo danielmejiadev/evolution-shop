@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6044bce1-f963-45ce-b099-5c825bce536d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#CD853F">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFDFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<subDataset name="ReporteDevoluciones" uuid="e3910cbc-6b5e-4b9a-a48e-6efb17499a85">
+		<parameter name="fechainiciodevolucion" class="java.util.Date"/>
+		<parameter name="fechafindevolucion" class="java.util.Date"/>
+		<queryString>
+			<![CDATA[select * from 
+(
+select idventa, count(idventa) as devolucionventa
+from devolucion
+group by idventa
+) as b
+
+natural join
+(
+
+select iddevolucion,idventa,descripcion, nombreusuario,apellidosusuario, precioproducto,fecha
+from ((devolucion natural join  ventaproducto) natural join producto) natural join usuario
+) as a
+where fecha >= $P{fechainiciodevolucion} and fecha <= $P{fechafindevolucion}
+order by iddevolucion]]>
+		</queryString>
+		<field name="idventa" class="java.lang.Integer"/>
+		<field name="devolucionventa" class="java.lang.Long"/>
+		<field name="iddevolucion" class="java.lang.Integer"/>
+		<field name="descripcion" class="java.lang.String"/>
+		<field name="nombreusuario" class="java.lang.String"/>
+		<field name="apellidosusuario" class="java.lang.String"/>
+		<field name="precioproducto" class="java.lang.Integer"/>
+		<field name="fecha" class="java.sql.Date"/>
+	</subDataset>
+	<parameter name="fechainiciodevolucion" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechafindevolucion" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="imagen" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from 
+(
+select idventa, count(idventa) as devolucionventa
+from devolucion
+group by idventa
+) as b
+
+natural join
+(
+
+select iddevolucion,idventa,descripcion, nombreusuario,apellidosusuario, precioproducto,fecha
+from ((devolucion natural join  ventaproducto) natural join producto) natural join usuario
+) as a
+where fecha >= $P{fechainiciodevolucion} and fecha <= $P{fechafindevolucion}
+order by iddevolucion]]>
+	</queryString>
+	<field name="idventa" class="java.lang.Integer"/>
+	<field name="devolucionventa" class="java.lang.Long"/>
+	<field name="iddevolucion" class="java.lang.Integer"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="nombreusuario" class="java.lang.String"/>
+	<field name="apellidosusuario" class="java.lang.String"/>
+	<field name="precioproducto" class="java.lang.Integer"/>
+	<field name="fecha" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="267" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="145" width="545" height="49" forecolor="#000000" uuid="14f75874-2a51-459d-a6c3-4c65d9abbc16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte De Devoluciones]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="38" y="10" width="213" height="20" uuid="45667676-112d-42a4-a2db-c0695f7b7fac"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement positionType="Float" x="10" y="30" width="545" height="115" uuid="fd6d06e0-79a2-4bfc-a28c-ea7a52ddfbee"/>
+				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
+			</image>
+			<componentElement>
+				<reportElement key="table" style="table" x="10" y="217" width="355" height="50" uuid="7e1e80a4-85c2-4e50-aa17-5bd3f964a89f"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ReporteDevoluciones" uuid="7e674b99-a39e-42f0-8030-545994401aa1">
+						<datasetParameter name="fechainiciodevolucion">
+							<datasetParameterExpression><![CDATA[$P{fechainiciodevolucion}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fechafindevolucion">
+							<datasetParameterExpression><![CDATA[$P{fechafindevolucion}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="c9bf93fb-0a20-4460-906c-c5dd3dee2dcd">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="8cb8786d-322d-4306-85e3-e282992e3786"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[DEVOLUCION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="526808c0-dec2-4dac-9161-ca604cb435fd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{iddevolucion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="231bd941-aa77-44b8-8767-1e320f542f1c">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="30" uuid="20e003d5-ff83-42c2-9c19-b7c67842c2d6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[VENTA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="80" height="20" uuid="02a02b3e-b45e-4cdb-baea-2b36799ef492"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{idventa}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="b93e1603-ecf0-462d-8060-380804ff5962">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="fdb39486-6b93-4e3c-97fa-8af121450357"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[DESCRIPCION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="64e2a228-03e5-43f9-adb5-14775a83904b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="121" uuid="f8039032-e3a1-465b-b379-4e1c92273b90">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="119" height="30" uuid="b6dfff8a-632f-4c10-b03c-169116c7a128"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[VENDEDOR]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="119" height="20" uuid="26fd5176-7447-4419-b39b-ad70c4eef152"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{nombreusuario} + " " + $F{apellidosusuario}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="37de51a8-616d-4527-9676-6bfac2f285ba">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="80" height="30" uuid="e7ad7859-74b7-4f5d-88fa-640781243cb5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PRECIO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="80" height="20" uuid="ae2832f3-4ec0-4553-a986-cc78eae4118d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{precioproducto}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="79" uuid="184b2405-9638-473a-9946-58d89923bf14">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="76" height="30" uuid="b57af18d-cd97-4eb5-9ed3-0a36b6d2db82"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[FECHA]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement x="0" y="0" width="79" height="20" uuid="7ec35cf7-05ad-4e6a-ab3c-cdb2793e6f60"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="aa6d5523-961e-41d3-89fa-cfa1711a7391"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="367" splitType="Stretch">
+			<lineChart>
+				<chart>
+					<reportElement x="25" y="75" width="484" height="292" uuid="f1cae0f5-4ec1-4335-acf5-229461fbc52f"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{idventa}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{idventa}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{devolucionventa}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+			<staticText>
+				<reportElement x="0" y="23" width="555" height="37" uuid="1c62c701-777c-448a-840c-8b9dfc1b5021"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grafico de devoluciones por venta]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

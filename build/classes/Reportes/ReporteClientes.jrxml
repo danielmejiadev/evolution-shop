@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="58b30f2b-7192-4c33-8d2c-a971895d9a65">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="50"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#CD853F">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFDFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<subDataset name="ReporteClieentes" uuid="bf74fdc2-9eaa-43c2-a2a0-a14184de5a02">
+		<queryString language="SQL">
+			<![CDATA[select  * from
+cliente 
+natural join 
+(
+select identificacioncliente,count(idventa) as numerocompras ,sum(montototal) as montocompras 
+from cliente natural join venta
+group by identificacioncliente
+) as a]]>
+		</queryString>
+		<field name="identificacioncliente" class="java.lang.String"/>
+		<field name="nombrecliente" class="java.lang.String"/>
+		<field name="apellidoscliente" class="java.lang.String"/>
+		<field name="direccion" class="java.lang.String"/>
+		<field name="correoelectronico" class="java.lang.String"/>
+		<field name="telefono" class="java.lang.String"/>
+		<field name="numerocompras" class="java.lang.Long"/>
+		<field name="montocompras" class="java.lang.Long"/>
+	</subDataset>
+	<parameter name="imagen" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select  * from
+cliente 
+natural join 
+(
+select identificacioncliente,count(idventa) as numerocompras ,sum(montototal) as montocompras 
+from cliente natural join venta
+group by identificacioncliente
+) as a]]>
+	</queryString>
+	<field name="identificacioncliente" class="java.lang.String"/>
+	<field name="nombrecliente" class="java.lang.String"/>
+	<field name="apellidoscliente" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="correoelectronico" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="numerocompras" class="java.lang.Long"/>
+	<field name="montocompras" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="274" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement positionType="Float" x="10" y="32" width="545" height="115" uuid="8a2c105d-073a-4f23-8e21-b6af2f9f0e0d"/>
+				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
+			</image>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="38" y="12" width="213" height="20" uuid="cb0be9b8-8972-4b9a-86eb-1de59c6d0503"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="147" width="555" height="49" forecolor="#000000" uuid="6606cc94-5f38-4896-ba9f-646b8e9a2189"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte De Clientes]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="table" style="table" x="10" y="221" width="360" height="50" uuid="b38f0d26-85ad-40de-a987-30c0a6cbcaca"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="ReporteClieentes" uuid="9177d302-cedd-47f0-8934-9cae261124f2">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="121" uuid="59d90bbf-f1b5-46bd-b6f2-28f4841a5896">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="121" height="30" uuid="a8a18693-2acb-4e6d-9261-57c58a9e6216"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[IDENTIFICACION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="121" height="20" uuid="6844bf7e-243c-42ec-93a6-054664f9643e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{identificacioncliente}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="113" uuid="9d831bd7-7eae-400d-8db4-658eba3ed5e6">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="113" height="30" uuid="67b75a65-885e-4dc4-a72f-46461204f1a8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CLIENTE]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="113" height="20" uuid="1547d359-91cd-47bd-85da-0f2c1221f268"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{nombrecliente}+" "+$F{apellidoscliente}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="1888fe92-f382-4dcc-9f5f-8348418e2f6c">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="ccdfa314-4344-4fe2-81cb-8308626cd6f7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[DIRECCION]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="20683a24-7771-4266-9d8c-cca2597d1ebc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="128" uuid="75b575cb-54be-401a-bd9b-565bbb23e5ec">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="128" height="30" uuid="69cd726e-0111-4865-bc7d-8a379934ee44"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[E-MAIL]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="128" height="20" uuid="12b35fc6-60c2-4883-9925-9b9c3d419903"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{correoelectronico}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="76649b84-7f19-42d1-89d4-01cd7db86e53">
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="f2613a46-8e96-4798-9e5e-425c9be2cad8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Times New Roman" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[TELEFONO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="61b41f27-aa5d-4960-b932-f3a245ab0658"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="de177776-192f-43d5-b661-515b0fcb2214"/>
+				<textElement>
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="802" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="37" uuid="c8a46def-e2c7-40ec-8aa0-fd09dc181bfd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grafico numero de compras por cliente]]></text>
+			</staticText>
+			<stackedBar3DChart>
+				<chart>
+					<reportElement x="23" y="37" width="505" height="348" uuid="346839a0-8309-4830-8761-6859f3e8c6bb"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nombrecliente}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombrecliente}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{numerocompras}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</stackedBar3DChart>
+			<staticText>
+				<reportElement x="0" y="428" width="555" height="37" uuid="efb50fee-4acc-409a-abe1-405de55779a9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="28" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grafico valor de compras por cliente]]></text>
+			</staticText>
+			<bar3DChart>
+				<chart>
+					<reportElement x="23" y="465" width="505" height="337" uuid="c372fec2-3bec-4759-9db2-a7c057ad525b"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$F{nombrecliente}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{nombrecliente}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{montocompras}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<bar3DPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</bar3DPlot>
+			</bar3DChart>
+		</band>
+	</summary>
+</jasperReport>
